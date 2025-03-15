@@ -10,9 +10,8 @@ var (
 )
 
 func main() {
-	logger = config.GetLogger("Opportunities API")
+	logger = config.GetLogger("main")
 
-	// Initialize configs
 	err := config.Init()
 
 	if err != nil {
@@ -20,6 +19,5 @@ func main() {
 		return
 	}
 
-	// Initialize routers
 	router.Initialize()
 }
