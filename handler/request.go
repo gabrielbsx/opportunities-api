@@ -2,6 +2,10 @@ package handler
 
 import "fmt"
 
+func errParamIsRequired(param string) error {
+	return fmt.Errorf("%s is required", param)
+}
+
 type CreateOpeningRequest struct {
 	Role     string  `json:"role"`
 	Company  string  `json:"company"`
@@ -9,10 +13,6 @@ type CreateOpeningRequest struct {
 	Remote   *bool   `json:"remote"`
 	Link     string  `json:"link"`
 	Salary   float64 `json:"salary"`
-}
-
-func errParamIsRequired(param string) error {
-	return fmt.Errorf("%s is required", param)
 }
 
 func (r *CreateOpeningRequest) Validate() error {
@@ -49,4 +49,25 @@ func (r *CreateOpeningRequest) Validate() error {
 	}
 
 	return nil
+}
+
+type UpdateOpeningRequest struct {
+	Role     string  `json:"role"`
+	Company  string  `json:"company"`
+	Location string  `json:"location"`
+	Remote   *bool   `json:"remote"`
+	Link     string  `json:"link"`
+	Salary   float64 `json:"salary"`
+}
+
+func (r *UpdateOpeningRequest) Validate() error {
+	if r == nil {
+		return fmt.Errorf("malformed request")
+	}
+
+	if r.Role != "" || r.Company != "" || r.Location != "" || r.Link != "" || r.Remote != nil || r.Salary > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("at least one field is required")
 }
